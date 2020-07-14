@@ -5,7 +5,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ${PHP_DOCKER_FILE}
     image: laraws/php-yii2
     container_name: yii2_learn_app
     restart: unless-stopped
@@ -19,8 +19,6 @@ services:
     volumes:
       - ./:/var/www
       - ./docker-config/php/php-config/local.ini:/usr/local/etc/php/conf.d/local.ini
-      - crondata:/var/spool/cron/
-      - supervisorddata:/etc/supervisor/conf.d/
     networks:
       - yii2_learn_network
 
@@ -38,49 +36,49 @@ services:
     networks:
       - yii2_learn_network
 
-  #MySQL Service
-  db:
-    image: mysql/mysql-server:latest
-    container_name: yii2_learn_db
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_DOCKER}
-      - MYSQL_DATABASE=${DB_DATABASE_DOCKER}
-      - MYSQL_USER=${DB_USERNAME_DOCKER}
-      - MYSQL_PASSWORD=${DB_PASSWORD_DOCKER}
-    volumes:
-      - dbdata:/var/lib/mysql/
-      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-    networks:
-      - yii2_learn_network
-
-
-    #node
-  node:
-    image: laraws/node:latest
-    container_name: yii2_learn_node
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./:/app
-    working_dir: /app
-    networks:
-      - yii2_learn_network
-
-  redis:
-    image: bitnami/redis:latest
-    container_name: yii2_learn_redis
-    environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD_DOCKER}
-    volumes:
-      - redisdata:/bitnami
-    ports:
-      - "6379:6379"
-    networks:
-      - yii2_learn_network
+#  #MySQL Service
+#  db:
+#    image: mysql/mysql-server:latest
+#    container_name: yii2_learn_db
+#    restart: unless-stopped
+#    tty: true
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_DOCKER}
+#      - MYSQL_DATABASE=${DB_DATABASE_DOCKER}
+#      - MYSQL_USER=${DB_USERNAME_DOCKER}
+#      - MYSQL_PASSWORD=${DB_PASSWORD_DOCKER}
+#    volumes:
+#      - dbdata:/var/lib/mysql/
+#      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+#    networks:
+#      - yii2_learn_network
+#
+#
+#    #node
+#  node:
+#    image: laraws/node:latest
+#    container_name: yii2_learn_node
+#    restart: unless-stopped
+#    tty: true
+#    volumes:
+#      - ./:/app
+#    working_dir: /app
+#    networks:
+#      - yii2_learn_network
+#
+#  redis:
+#    image: bitnami/redis:latest
+#    container_name: yii2_learn_redis
+#    environment:
+#      - REDIS_PASSWORD=${REDIS_PASSWORD_DOCKER}
+#    volumes:
+#      - redisdata:/bitnami
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - yii2_learn_network
 
 #Docker Networks
 networks:
