@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd ./config
+cd ../../config
 
-config_list=(db-local.php params-local.php web-local.php)
+config_list=(db-local.php params-local.php web-local.php console-local.php)
 
 for file in ${config_list[@]}; do
   if [ -f $file ]; then
